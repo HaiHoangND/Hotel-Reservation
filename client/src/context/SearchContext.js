@@ -25,7 +25,8 @@ const SearchReducer = (state, action) => {
 
 export const SearchContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(SearchReducer, INITIAL_STATE);
-
+  //dispatch là hàm thay đổi state
+  //Trạng thái ban đầu được truyền vào là INITIAL_STATE, và SearchReducer là một reducer (hàm xử lý trạng thái) được định nghĩa riêng
   return (
     <SearchContext.Provider
       value={{
