@@ -47,7 +47,7 @@ const Reserve = ({ setOpen, hotelId }) => {
         ? [...selectedRooms, value]
         : selectedRooms.filter((item) => item !== value)
     );
-  };
+  }; //[...selectedRooms, value] nghĩa là thêm giá trị của phần tử vào mảng selectedRooms bằng cách sử dụng toán tử spread (...)
 
   const navigate = useNavigate();
 

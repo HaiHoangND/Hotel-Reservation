@@ -1,35 +1,40 @@
-.login {
+.update {
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #D8E9A8;
+  background-color: #d8e9a8;
 }
 
-.lContainer {
+.uContainer {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.lInput{
+.uInput {
   height: 30px;
   padding: 10px;
 }
 
-.lButton {
+.uButton {
   border: none;
   padding: 10px 20px;
-  background-color: #4E9F3D;
+  background-color: #4e9f3d;
   color: white;
   font-weight: bold;
   cursor: pointer;
   border-radius: 5px;
-  display: flex;
-  justify-content: space-between;
 }
 
-.lButton:disabled{
-  background-color: #1E5128;
+.uButton:disabled {
+  background-color: #1e5128;
   cursor: not-allowed;
 }
+
+.input{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+

@@ -5,6 +5,38 @@
   justify-content: center;
 }
 
+.username{
+  background-color: #1E5128;
+  color: white; 
+  border-radius: 5px;
+  padding: 5px 10px;
+}
+
+.dropdownContainer {
+  position: relative;
+}
+
+.dropdown {
+  margin-top: 5px;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #D8E9A8;
+  border: 1px solid #dddddd;
+  padding: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  border-radius: 5px;
+}
+
+.dropdownButton {
+  padding: 5px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+}
+
 .navContainer{
   width: 100%;
   max-width: 1024px;
