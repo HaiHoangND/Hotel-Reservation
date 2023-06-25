@@ -9,6 +9,7 @@ import List from "./pages/list/List";
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
 import UpdateUser from "./pages/updateUser/UpdateUser";
+import Order from "./pages/order/Order";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/hotels/:id" element={<Hotel/>}/>
         <Route path="/login" element={<Login/>}/>
         <Route path="/register" element={<Register/>}/>
+        <Route path="/order" element={<Order/>}/>
         {/* <Route path="/updateuser/:id" element={<UpdateUser/>}/> */}
       </Routes>
     </BrowserRouter>

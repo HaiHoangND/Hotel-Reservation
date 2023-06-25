@@ -33,6 +33,22 @@ export const updateRoom = async (req, res, next) => {
     next(err);
   }
 };
+export const updateRoomAfterCancel = async (req, res, next) => {
+  const { roomNeedToUpdate, orderDates } = req.body;
+
+  try {
+    for (const roomId of roomNeedToUpdate) {
+      await Room.findOneAndUpdate(
+        { "roomNumbers._id": roomId },
+        { $pullAll: { "roomNumbers.$.unavailableDates": orderDates } }
+      );
+    }
+
+    res.status(200).json({ message: 'Dates canceled successfully' });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to cancel dates' });
+  }
+};
 export const updateRoomAvailability = async (req, res, next) => {
   try {
     await Room.updateOne(

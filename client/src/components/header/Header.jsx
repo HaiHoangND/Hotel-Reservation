@@ -2,6 +2,10 @@ import {
   faBed,
   faCalendarDays,
   faCar,
+  faCity,
+  faHotel,
+  faHouse,
+  faMoneyBill,
   faPerson,
   faPlane,
   faPlaneDeparture,
@@ -10,7 +14,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./header.css";
 import { DateRange } from "react-date-range";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { format } from "date-fns";
@@ -20,6 +24,7 @@ import { AuthContext } from "../../context/AuthContext";
 
 const Header = ({ type }) => {
   const [destination, setDestination] = useState("");
+  const [hideOrderIcon, setHideOrderIcon] = useState(false);
   const [openDate, setOpenDate] = useState(false);
   const [dates, setDates] = useState([
     {
@@ -41,7 +46,7 @@ const Header = ({ type }) => {
   const handleOption = (name, operation) => {
     setOptions((prev) => {
       return {
-        ...prev,//trả lại trạng thái trước đó
+        ...prev, //trả lại trạng thái trước đó
         [name]: operation === "i" ? options[name] + 1 : options[name] - 1,
       };
     });
@@ -54,6 +59,40 @@ const Header = ({ type }) => {
     navigate("/hotels", { state: { destination, dates, options } });
   };
 
+  const homeNavigate = () => {
+    navigate("/");
+  };
+
+  const orderNavigate = () => {
+    navigate("/order");
+  };
+
+  useEffect(() => {
+    if (user === null) setHideOrderIcon(true);
+    else setHideOrderIcon(false); // Ẩn icon nếu giá trị trong localStorage là null
+  }, [user]);
+
+  const trendingNavigate = () => {
+    const trendingElement = document.getElementById("trending");
+    if (trendingElement) {
+      trendingElement.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  const staysNavigate = () => {
+    const staysElement = document.getElementById("stays");
+    if (staysElement) {
+      staysElement.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  const hotelsNavigate = () => {
+    const hotelsElement = document.getElementById("hotels");
+    if (hotelsElement) {
+      hotelsElement.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <div className="header">
       <div
@@ -62,25 +101,25 @@ const Header = ({ type }) => {
         }
       >
         <div className="headerList">
-          <div className="headerListItem active">
+          <div className="headerListItem active pointer" onClick={homeNavigate}>
+            <FontAwesomeIcon icon={faHouse} />
+            <span>Home</span>
+          </div>
+          <div className="headerListItem pointer" onClick={trendingNavigate}>
+            <FontAwesomeIcon icon={faCity} />
+            <span>Trending</span>
+          </div>
+          <div className="headerListItem pointer" onClick={staysNavigate}>
             <FontAwesomeIcon icon={faBed} />
             <span>Stays</span>
           </div>
-          <div className="headerListItem">
-            <FontAwesomeIcon icon={faPlane} />
-            <span>Flights</span>
+          <div className="headerListItem pointer" onClick={hotelsNavigate}>
+            <FontAwesomeIcon icon={faHotel} />
+            <span>Hotels</span>
           </div>
-          <div className="headerListItem">
-            <FontAwesomeIcon icon={faCar} />
-            <span>Car rentals</span>
-          </div>
-          <div className="headerListItem">
-            <FontAwesomeIcon icon={faBed} />
-            <span>Attractions</span>
-          </div>
-          <div className="headerListItem">
-            <FontAwesomeIcon icon={faTaxi} />
-            <span>Airport taxis</span>
+          <div className={hideOrderIcon ? "hidden" : "headerListItem pointer"} onClick={orderNavigate}>
+            <FontAwesomeIcon icon={faMoneyBill} />
+            <span>Order</span>
           </div>
         </div>
         {type !== "list" && (
@@ -95,7 +134,10 @@ const Header = ({ type }) => {
             {/* <button className="headerBtn">Sign in / Register</button> */}
             <div className="headerSearch">
               <div className="headerSearchItem">
-                <FontAwesomeIcon icon={faPlaneDeparture} className="headerIcon" />
+                <FontAwesomeIcon
+                  icon={faPlaneDeparture}
+                  className="headerIcon"
+                />
                 <input
                   type="text"
                   placeholder="Where are you going?"
@@ -137,7 +179,7 @@ const Header = ({ type }) => {
                         <button
                           disabled={options.adult <= 1}
                           className="optionCounterButton"
-                          onClick={() => handleOption("adult", "d")}//decrease
+                          onClick={() => handleOption("adult", "d")} //decrease
                         >
                           -
                         </button>
@@ -146,7 +188,7 @@ const Header = ({ type }) => {
                         </span>
                         <button
                           className="optionCounterButton"
-                          onClick={() => handleOption("adult", "i")}//increase
+                          onClick={() => handleOption("adult", "i")} //increase
                         >
                           +
                         </button>

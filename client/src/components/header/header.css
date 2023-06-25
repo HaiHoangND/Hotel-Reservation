@@ -127,3 +127,11 @@
 .optionCounterButton:disabled {
   cursor: not-allowed;
 }
+
+.pointer {
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
+}

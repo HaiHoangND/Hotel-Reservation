@@ -7,11 +7,13 @@ import { useContext, useState } from "react";
 import { SearchContext } from "../../context/SearchContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
 
-const Reserve = ({ setOpen, hotelId }) => {
+const Reserve = ({ setOpen, hotelId, days }) => {
   const [selectedRooms, setSelectedRooms] = useState([]);
   const { data, loading, error } = useFetch(`/hotels/room/${hotelId}`);
   const { dates } = useContext(SearchContext);
+  const { user } = useContext(AuthContext);
 
   const getDatesInRange = (startDate, endDate) => {
     const start = new Date(startDate);
@@ -52,15 +54,36 @@ const Reserve = ({ setOpen, hotelId }) => {
   const navigate = useNavigate();
 
   const handleClick = async () => {
+    const selectedRoomNumbers = [];
+    let totalPrice = 0;
     try {
       await Promise.all(
         selectedRooms.map((roomId) => {
+          const room = data.find((item) =>
+            item.roomNumbers.some((roomNumber) => roomNumber._id === roomId)
+          );
+          const roomNumber = room.roomNumbers.find(
+            (roomNumber) => roomNumber._id === roomId
+          );
+          selectedRoomNumbers.push({
+            roomId: String(roomId),
+            number: roomNumber.number,
+          });
+          totalPrice += room.price;
           const res = axios.put(`/rooms/availability/${roomId}`, {
             dates: alldates,
           });
-          return res.data;
         })
       );
+      const orderRequest = {
+        user: user._id,
+        hotel: hotelId,
+        roomNumbers: selectedRoomNumbers,
+        dates: alldates,
+        totalPrice: totalPrice*days,
+      };
+  
+      const response = await axios.post("http://localhost:8800/api/users", orderRequest);
       setOpen(false);
       navigate("/");
     } catch (err) {}

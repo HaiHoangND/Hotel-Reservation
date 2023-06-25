@@ -4,6 +4,9 @@ import {
   deleteUser,
   getUser,
   getUsers,
+  createOrder,
+  getUserOrder,
+  deleteUserOrder,
 } from "../controllers/user.js";
 import { verifyAdmin, verifyToken, verifyUser } from "../utils/verifyToken.js";
 
@@ -25,12 +28,17 @@ const router = express.Router();
 router.put("/:id", verifyUser, updateUser);
 
 //DELETE
-router.delete("/:id", verifyUser, deleteUser);
+// router.delete("/:id", verifyUser, deleteUser);
+router.delete("/:orderId", deleteUserOrder);
 
-//GET
-router.get("/:id", verifyUser, getUser);
+// //GET
+// router.get("/:id", getUser);
 
-//GET ALL
-router.get("/", verifyAdmin, getUsers);
+// //GET ALL
+// router.get("/", getUsers);
+
+router.get("/order/:id", getUserOrder);
+
+router.post("/", createOrder);
 
 export default router;
